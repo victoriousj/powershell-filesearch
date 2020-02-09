@@ -1,18 +1,22 @@
-$fileSearch = $true
+if ($args.Length -eq 0) {return}
 
+$fileSearch = $true
 if ($args.IndexOf('-dr') -gt -1) {
     $fileSearch = $false
 } 
 
-for ( $i = 0; $i -lt $args.count; $i++ ) {
-    if ($args[$i] -notmatch '-dr') 
+foreach ($arg in $args) {
+    if ($arg -notmatch '-dr') 
     {
-        $param += '*'+$args[$i]+'*'
+        $param += "*$arg*"
     }
 }
 
-Write-Host 'searching for: "'($param.Replace('*', " ").Trim())'"...' -Separator ""
-$fileName = get-childitem -recurse -File:($fileSearch) -Directory:(!$fileSearch) -ErrorAction SilentlyContinue -Filter $param | Select-Object -ExpandProperty FullName -First 1
+$type = @({directory},{file})[$fileSearch]
+
+Write-Host "searching for $type - ""$($param.Replace('*', " ").Replace("  ", " ").Trim())"""
+
+$fileName = Get-ChildItem -Recurse -File:($fileSearch) -Directory:(!$fileSearch) -ErrorAction SilentlyContinue -Filter $param | Select-Object -ExpandProperty FullName -First 1
 if ($fileName) 
 {
     Write-Host $fileName
@@ -20,5 +24,5 @@ if ($fileName)
 }
 else 
 {
-    Write-Host 'nothing was found'
+    Write-Host "the $type was not found"
 }
