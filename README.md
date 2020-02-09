@@ -1,6 +1,8 @@
 # powershell-filesearch
 Search through a directory for either a sub-directory or a file with PowerShell. This will recursively search through all directories from where the command is run.
 
+![Quickly find and open your files and folders](https://raw.githubusercontent.com/victoriousj/powershell-filesearch/master/FileSearch.png)
+
 ## Instructions:
 To run, either place this file in your PATH or navigate to it in your PowerShell and enter:
 ```console
