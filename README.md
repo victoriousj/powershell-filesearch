@@ -1,0 +1,23 @@
+# powershell-filesearch
+Search through a directory for either a sub-directory or a file with PowerShell. This will recursively search through all directories from where the command is run.
+
+## Instructions:
+To run, either place this file in your PATH or navigate to it in your PowerShell and enter:
+```console
+FileSearch (file name) [-dr]
+```
+
+File name can be enclosed in quotes or without:
+
+```console
+FileSearch "Paint It Black"
+```
+works just as well as:
+```console
+FileSearch Paint It Black
+```
+
+The optional "-dr" flag will switch from search for a file to searching for a directory:
+```console
+FileSearch "Music" -dr
+```
