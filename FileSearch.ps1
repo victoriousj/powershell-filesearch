@@ -1,4 +1,4 @@
-if ($args.Length -eq 0) {return}
+﻿if ($args.Length -eq 0) {return}
 
 $fileSearch = $true
 if ($args.IndexOf('-dr') -gt -1) {
