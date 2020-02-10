@@ -4,7 +4,11 @@ Search through a directory for either a sub-directory or a file with PowerShell.
 ![Quickly find and open your files and folders](https://raw.githubusercontent.com/victoriousj/powershell-filesearch/master/FileSearch.png)
 
 ## Instructions:
-To install, open PowerShell as an administrator (right-click PowerShell and select 'Run as Admin') and navigate to this folder. Run 'install.ps1'. This will copy the FileSearch PS1 file to your AppData folder and append your machine's PATH variable so that FileSearch can be run from any PowerShell session. After running 'install.ps1' close that PowerShell session and open another and you should be able to run it from this point. Also, installing things this way is not smart - you could be installing anything! Read the code in order to make sure you want this on your system.
+* Clone the repo
+* Double-click install-filesearch.exe
+* ???
+* Open PowerShell
+* Success!
 
 To use:
 ```console
