@@ -1,57 +1,68 @@
-﻿if ($args.Length -eq 0) {return}  
+﻿function FlipAndWrite
+{
+    Param($Message, [Switch] $DoubleSpace)
+    if ($DoubleSpace) { 
+        $Message = "`n$Message"
+    }
+    Write-Host $Message -ForegroundColor "$(({magenta},{cyan})[($script:Bool = !$Bool)])"
+}
+
+if ($args.Length -eq 0) {
+    FlipAndWrite "what are you looking for??" -DoubleSpace
+    $args = (Read-Host) -split " "
+}  
 
 $fileSearch = $true
-if ($args.IndexOf('-dr') -gt -1) 
-{
+if ($args.IndexOf('-dr') -ge 0) {
     $fileSearch = $false
 }
 
-foreach ($arg in $args) 
-{
-    if ($arg -notmatch '-dr')     
-    {
+foreach ($arg in $args) {
+    if ($arg -notmatch '-dr') {
         $param += "*$arg*"
     }
 }
 
-$type = @({directory},{file})[$fileSearch]
+$type = @( {directory}, {file})[$fileSearch]
 
-Write-Host "`nsearching for $type - ""$($param.Replace('*', " ").Replace("  ", " ").Trim())""`n"
+FlipAndWrite "searching for $type - ""$($param.Replace('*', " ").Replace("  ", " ").Trim())""..." -DoubleSpace
 
 $results = @(Get-ChildItem -Recurse -File:($fileSearch) -Directory:(!$fileSearch) -ErrorAction SilentlyContinue -Filter $param | Select-Object -ExpandProperty FullName)
 
-if ($results.Length)
-{
-    $file = $results[0]
-    if ($results.Length -gt 1) 
-    {
-        Write-Host "Select one of the results:"
-        for ($index=0; $index -lt $results.Length; $index++)
-        { 
-            Write-Host "[$($index+1)] - $($results[$index])"
-        }
-        
-        Write-Host "[x] - exit`n"
-        do
-        {
-            $input = Read-Host "Which $($type)??"
-            if ($input -eq "x") {return}
-        }
-        until ($input -match '^[0-9]+$' -and [int]$input -lt $results.Length+1)
+if ($results.Length) {
 
-        $file = $results[$input-1]
+    $file = $results[0]
+
+    if ($results.Length -gt 1) {
+        
+        FlipAndWrite "select one of the results:" -DoubleSpace
+
+        for ($index = 0; $index -lt $results.Length; $index++) {
+            FlipAndWrite "[$($index+1)] - $($results[$index])"
+        }
+
+        FlipAndWrite "[x] - exit`n"
+        
+        do {
+            FlipAndWrite "which $($type)??" -DoubleSpace
+            $input = (Read-Host)
+            if ($input -eq "x") { return }
+        }
+        until ($input -match '^[0-9]+$' -and [int]$input -lt $results.Length + 1)
+
+        $file = $results[$input - 1]
     }
 
-    Write-Host $file
-    if ($results.Length -eq 1)
-    {
+    FlipAndWrite $file -DoubleSpace
+    if ($results.Length -eq 1) {
         $input = Read-Host "`nopen this $($type)?? [Y/n]"
         if ($input -eq "n") { return }
     }
 
+    FlipAndWrite "opening $type..." -DoubleSpace
+
     Start-Process -filepath "$file"
 }
-else
-{
-    Write-Host "the $type was not found"
+else {
+    FlipAndWrite "the $type was not found" -DoubleSpace
 }
