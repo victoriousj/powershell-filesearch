@@ -9,6 +9,7 @@
     }
     
     Write-Host $Message -ForegroundColor "$(({magenta},{cyan})[($script:Bool = !$Bool)])"
+
 }
 
 if ($args.Length -eq 0) {
@@ -17,9 +18,10 @@ if ($args.Length -eq 0) {
 
         FlipAndWrite "what are you looking for??" -DoubleSpace
         
-        $args = (Read-Host) -split " "
+        $args = (Read-Host).Trim() -split " "
 
-    } until ($args.Length)
+    } until ($args -ne "")
+
 }  
 
 $fileSearch = $true
@@ -50,6 +52,7 @@ if (!$results.Length) {
     FlipAndWrite "the $type was not found" -DoubleSpace
     
     return
+
 }
 
 $file = $results[0]
@@ -77,6 +80,7 @@ if ($results.Length -gt 1) {
     } until ($input -match '^[0-9]+$' -and [int]$input -le $results.Length)
 
     $file = $results[$input - 1]
+
 }
 
 FlipAndWrite $file -DoubleSpace
@@ -88,6 +92,7 @@ if ($results.Length -eq 1) {
     $input = (Read-Host) 
 
     if ($input -eq "n") { return }
+    
 }
 
 FlipAndWrite "opening $type..." -DoubleSpace
