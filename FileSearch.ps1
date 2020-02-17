@@ -1,5 +1,4 @@
-﻿function FlipAndWrite
-{
+﻿function FlipAndWrite {
     Param($Message, [Switch] $DoubleSpace)
 
     if ($DoubleSpace) { 
@@ -77,9 +76,22 @@ if ($results.Length -gt 1) {
         
         if ($input -eq "x") { return }
     
-    } until ($input -match '^[0-9]+$' -and [int]$input -le $results.Length)
+        $index = $input.Split(" ")[0]
 
-    $file = $results[$input - 1]
+        $numberEntered = $index -match '^[0-9]+$' -and [int]$index -le $results.Length
+    
+    } until ($numberEntered)
+
+    if ($input.Split(" ").Count -ge 2) {
+
+        $file = Split-Path -Path $results[$index - 1]
+    
+    }
+    else {
+
+        $file = $results[$index - 1]
+
+    }
 
 }
 
